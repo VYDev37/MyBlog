@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "laravel-expert": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "sourceType": "github",
+      "skillPath": "skills/laravel-expert/SKILL.md",
+      "computedHash": "1e46c5ce32de83da7022ef04cbc6ddf5f67f9ec410ee1ae7b437204fee834e6a"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
+      "computedHash": "ce0af583006d2fd4731663adc50c0a5df1121f0d49a5bb9c308eca4ee295c60a"
+    }
+  }
+}
