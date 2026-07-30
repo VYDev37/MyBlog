@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostUpdateRequest extends FormRequest
+class ImageUploadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,7 @@ class PostUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
-            'content' => 'required',
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp,heic,heif,avif,bmp', 'max:5120'],
-            'categories' => ['required', 'array', 'min:1'],
-            'categories.*' => ['exists:categories,id'],
-            'published_at' => ['nullable', 'datetime'],
         ];
     }
 }

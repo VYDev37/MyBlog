@@ -15,7 +15,6 @@ class Post extends Model
         'title',
         'content',
         'slug',
-        'category_id',
         'image',
         'user_id',
         'published_at',
@@ -26,9 +25,9 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class);
     }
 
     public function readTime($wpm_estimation = 100) // words read per minute estimation

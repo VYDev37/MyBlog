@@ -32,7 +32,7 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::get();
-        return view('post.create', ['categories' => $categories]);
+        return view('post.create', ['categories' => $categories, 'post' => new Post()]);
     }
 
     /**
@@ -55,6 +55,9 @@ class PostController extends Controller
         }
         $data['slug'] = $slug;
 
+        $categories = $data['categories'];
+        unset($data['categories']);
+
         $imagePath = $image->getRealPath();
         $upload = $cloudinary->uploadApi()->upload($imagePath, [
             'folder' => 'posts',
@@ -62,7 +65,9 @@ class PostController extends Controller
 
         $data['image'] = $cloudinary->image($upload['public_id'])->quality('auto')->format('auto')->toUrl();
 
-        Post::create($data);
+        $post = Post::create($data);
+        $post->categories()->attach($categories);
+
         return redirect()->route('dashboard');
     }
 
@@ -120,7 +125,13 @@ class PostController extends Controller
         } else {
             unset($data['slug']);
         }
+        $categories = $data['categories'] ?? [];
+        unset($data['categories']);
+
         $post->update($data);
+        if (!empty($categories)) {
+            $post->categories()->sync($categories);
+        }
 
         return redirect()->route('post.show', ['user' => $user->username, 'post' => $post->slug]);
     }

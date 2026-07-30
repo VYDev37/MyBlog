@@ -1,10 +1,10 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900">
+        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
             {{ __('Profile Information') }}
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600">
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
             {{ __("Update your account's profile information and email address.") }}
         </p>
     </header>
@@ -21,9 +21,9 @@
         <div class="flex items-center gap-6" x-data="{ previewUrl: null }">
             <div class="relative w-16 h-16 group">
                 <img x-show="previewUrl" :src="previewUrl"
-                    class="relative w-full h-full overflow-hidden bg-neutral-secondary-medium rounded-full shadow-sm border border-gray-200 w-full h-full object-cover">
+                    class="relative w-full h-full overflow-hidden bg-neutral-secondary-medium dark:bg-gray-700 rounded-full shadow-sm border border-gray-200 dark:border-gray-600 w-full h-full object-cover">
                 <div x-show="!previewUrl"
-                    class="relative w-full h-full overflow-hidden bg-neutral-secondary-medium rounded-full shadow-sm border border-gray-200">
+                    class="relative w-full h-full overflow-hidden bg-neutral-secondary-medium dark:bg-gray-700 rounded-full shadow-sm border border-gray-200 dark:border-gray-600">
                     @if ($user->profile)
                         <img src="{{ Str::startsWith($user->profile, 'http') ? $user->profile : Storage::url($user->profile) }}"
                             alt="Profile" class="w-full h-full object-cover">
@@ -53,9 +53,9 @@
                 <x-text-input id="profile" name="profile"
                     @change="previewUrl = URL.createObjectURL($event.target.files[0])"
                     accept=".jpg,.png,.jpeg,.svg,.gif,.webp,.heic,.heif,.avif,.bmp"
-                    class="cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full shadow-xs placeholder:text-body"
+                    class="cursor-pointer bg-neutral-secondary-medium dark:bg-gray-900 border border-default-medium dark:border-gray-700 text-heading dark:text-gray-300 text-sm rounded-base focus:ring-brand focus:border-brand block w-full shadow-xs placeholder:text-body"
                     aria-describedby="profile_help" type="file" autofocus />
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="profile_help">SVG, PNG, JPG,
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-300" id="profile_help">SVG, PNG, JPG,
                     WEBP, JPEG, HEIC, HEIF, AVIF, BMP, or GIF (MAX. 2MB).</p>
             </div>
         </div>
@@ -86,7 +86,7 @@
                         {{ __('Your email address is unverified.') }}
 
                         <button form="send-verification"
-                            class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
                             {{ __('Click here to re-send the verification email.') }}
                         </button>
                     </p>
@@ -112,7 +112,7 @@
 
             @if (session('status') === 'profile-updated')
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600">{{ __('Saved.') }}</p>
+                    class="text-sm text-gray-600 dark:text-gray-400">{{ __('Saved.') }}</p>
             @endif
         </div>
     </form>
