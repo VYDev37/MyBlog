@@ -1,2 +1,4 @@
 User-agent: *
-Disallow:
+Disallow: /profile
+Disallow: /post/create
+Sitemap: /sitemap.xml

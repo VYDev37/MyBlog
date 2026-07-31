@@ -44,8 +44,15 @@
 
                     <!-- User Info -->
                     <div>
-                        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 tracking-tight">
-                            {{ $user->name }}
+                        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 tracking-tight flex items-center gap-2">
+                            @if ($user->isAdmin())
+                                <span class="text-yellow-600 dark:text-yellow-500">{{ $user->name }}</span>
+                                <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-500" fill="currentColor" viewBox="0 0 24 24" title="Verified Admin">
+                                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"/>
+                                </svg>
+                            @else
+                                {{ $user->name }}
+                            @endif
                         </h1>
                         <p class="text-gray-500 dark:text-gray-400 font-medium text-sm sm:text-base mt-0.5">
                             {{ '@' . $user->username }}

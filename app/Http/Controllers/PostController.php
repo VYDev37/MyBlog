@@ -10,6 +10,7 @@ use App\Models\User;
 use Cloudinary\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -19,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::latest()->simplePaginate(5);
+        $posts = Post::with(['user', 'categories'])->latest()->simplePaginate(5);
 
         return view('post.index', [
             'posts' => $posts,
@@ -48,10 +49,9 @@ class PostController extends Controller
         $data['user_id'] = Auth::id();
         $baseSlug = Str::slug($data['title']);
         $slug = $baseSlug;
-        $counter = 1;
-        while (Post::where('slug', $slug)->exists()) {
-            $slug = $baseSlug . '-' . $counter;
-            $counter++;
+
+        if (Post::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . strtolower(Str::random(6));
         }
         $data['slug'] = $slug;
 
@@ -93,11 +93,10 @@ class PostController extends Controller
      */
     public function update(PostUpdateRequest $request, Post $post, Cloudinary $cloudinary)
     {
+        Gate::authorize('update', $post);
+
         $data = $request->all();
         $user = Auth::user();
-        if ($user->id !== $post->user_id) {
-            abort(403, 'Unauthorized action.');
-        }
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -116,10 +115,9 @@ class PostController extends Controller
         if ($request->title !== $post->title) {
             $baseSlug = Str::slug($data['title']);
             $slug = $baseSlug;
-            $counter = 1;
-            while (Post::where('slug', $slug)->where('id', '!=', $post->id)->exists()) {
-                $slug = $baseSlug . '-' . $counter;
-                $counter++;
+
+            if (Post::where('slug', $slug)->where('id', '!=', $post->id)->exists()) {
+                $slug = $baseSlug . '-' . strtolower(Str::random(6));
             }
             $data['slug'] = $slug;
         } else {
@@ -141,6 +139,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        Gate::authorize('delete', $post);
+
         $post->delete();
         return redirect()->route('dashboard');
     }

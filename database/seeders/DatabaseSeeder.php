@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'admin ril',
             'username' => 'admin',
             'email' => 'admin@gmail.com',
+            'role_id' => 2
         ]);
 
         $categories = [

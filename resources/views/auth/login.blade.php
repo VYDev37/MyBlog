@@ -46,7 +46,7 @@
         </div>
     </form>
 
-    @if (Route::has('register'))
+    @if (Route::has('register') && config('app.allow_registration', true))
         <div class="mt-6 text-center">
             <span class="text-sm text-gray-600">{{ __("Don't have an account?") }}</span>
             <a class="underline text-sm text-indigo-600 hover:text-indigo-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 font-semibold ms-1"

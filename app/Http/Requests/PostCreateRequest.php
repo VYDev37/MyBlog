@@ -23,11 +23,11 @@ class PostCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
-            'content' => 'required',
+            'title' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string'],
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp,heic,heif,avif,bmp', 'max:5120'],
             'categories' => ['required', 'array', 'min:1'],
-            'categories.*' => ['exists:categories,id'],
+            'categories.*' => ['required', 'integer', 'exists:categories,id'],
             'published_at' => ['nullable', 'datetime'],
         ];
     }

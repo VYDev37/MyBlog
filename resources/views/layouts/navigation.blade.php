@@ -26,11 +26,13 @@
                 </button>
 
                 @auth
-                    <a href="{{ route('post.create') }}" class="flex items-center">
-                        <x-primary-button>
-                            Create Post
-                        </x-primary-button>
-                    </a>
+                    @if(Auth::user()->isAdmin())
+                        <a href="{{ route('post.create') }}" class="flex items-center">
+                            <x-primary-button>
+                                Create Post
+                            </x-primary-button>
+                        </a>
+                    @endif
                 @endauth
 
                 <!-- Settings Dropdown -->

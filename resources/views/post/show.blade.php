@@ -31,8 +31,15 @@
 
                         <div class="flex flex-col justify-center">
                             <a href="{{ route('profile.show', ['user' => $post->user->username]) }}"
-                                class="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 leading-snug hover:text-indigo-600 dark:hover:text-indigo-400">
-                                {{ $post->user->name }}
+                                class="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 leading-snug hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-1.5 w-fit">
+                                @if ($post->user->isAdmin())
+                                    <span class="text-yellow-600 dark:text-yellow-500">{{ $post->user->name }}</span>
+                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 dark:text-yellow-500 shrink-0" fill="currentColor" viewBox="0 0 24 24" title="Verified Admin">
+                                        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"/>
+                                    </svg>
+                                @else
+                                    {{ $post->user->name }}
+                                @endif
                             </a>
                             <div
                                 class="flex items-center flex-wrap gap-x-2 gap-y-1 mt-0.5 text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium">

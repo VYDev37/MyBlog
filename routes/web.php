@@ -10,8 +10,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::post('/upload-image', [ImageUploadController::class, 'store'])->name('image.upload');
+Route::middleware(['auth', 'verified', 'role'])->group(function () {
+    Route::post('/upload-image', [ImageUploadController::class, 'store'])
+        ->middleware('throttle:20,1')
+        ->name('image.upload');
 
     Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
     Route::post('/post', [PostController::class, 'store'])->name('post.store');
@@ -27,7 +29,9 @@ Route::get('/category/{category}', [PostController::class, 'categorize'])->name(
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->middleware('throttle:10,1')
+        ->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 

@@ -15,7 +15,19 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $title ?? config('app.name', 'Laravel') }}</title>
+    <meta name="description" content="{{ $meta_description ?? 'A modern Laravel blog application.' }}">
+
+    <meta property="og:title" content="{{ $title ?? config('app.name', 'Laravel') }}" />
+    <meta property="og:description" content="{{ $meta_description ?? 'A modern Laravel blog application.' }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    @isset($og_image)
+        <meta property="og:image" content="{{ $og_image }}" />
+    @else
+        <meta property="og:image" content="{{ asset('favicon.ico') }}" />
+    @endisset
+    <meta name="twitter:card" content="summary_large_image">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

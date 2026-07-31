@@ -20,7 +20,15 @@
             <div
                 class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 font-medium flex items-center gap-1.5 truncate">
                 <a href="{{ route('profile.show', ['user' => $post->user->username]) }}"
-                    class="truncate hover:text-gray-900 dark:hover:text-white">{{ $post->user->name }}
+                    class="truncate hover:text-gray-900 dark:hover:text-white flex items-center gap-1">
+                    @if ($post->user->isAdmin())
+                        <span class="text-yellow-600 dark:text-yellow-500">{{ $post->user->name }}</span>
+                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-600 dark:text-yellow-500 shrink-0" fill="currentColor" viewBox="0 0 24 24" title="Verified Admin">
+                            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"/>
+                        </svg>
+                    @else
+                        {{ $post->user->name }}
+                    @endif
                 </a>
                 <span class="text-gray-400 dark:text-gray-500 shrink-0">&middot;</span>
                 <span class="text-gray-500 dark:text-gray-400 shrink-0">{{ $post->created_at->format('M d, Y') }}</span>
