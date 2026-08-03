@@ -1,0 +1,39 @@
+name: Keep Aiven MySQL Alive
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping-aiven:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Aiven (MySQL)
+        env:
+          AIVEN_HOST: ${{ secrets.AIVEN_HOST }}
+          AIVEN_PORT: ${{ secrets.AIVEN_PORT }}
+          AIVEN_USER: ${{ secrets.AIVEN_USER }}
+          AIVEN_PASSWORD: ${{ secrets.AIVEN_PASSWORD }}
+          AIVEN_DATABASE: ${{ secrets.AIVEN_DATABASE }}
+        run: |
+          pip install pymysql -q
+          python - <<'EOF'
+          import pymysql, os
+          try:
+              conn = pymysql.connect(
+                  host=os.environ["AIVEN_HOST"],
+                  port=int(os.environ["AIVEN_PORT"]),
+                  user=os.environ["AIVEN_USER"],
+                  password=os.environ["AIVEN_PASSWORD"],
+                  database=os.environ["AIVEN_DATABASE"],
+                  ssl={"ssl": True}
+              )
+              cur = conn.cursor()
+              cur.execute("SELECT 1")
+              print("✅ Aiven MySQL OK:", cur.fetchone())
+              conn.close()
+          except Exception as e:
+              print("❌ Aiven MySQL Error:", e)
+              exit(1)
+          EOF
